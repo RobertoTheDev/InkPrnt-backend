@@ -1,0 +1,26 @@
+# Node modules
+node_modules/
+
+# Variáveis de ambiente
+.env
+
+# Uploads temporários
+uploads/
+
+# Logs
+logs/
+*.log
+
+# Cobertura de testes
+coverage/
+
+# Configurações do editor
+.vscode/
+.idea/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Nodemon
+nodemon.json
