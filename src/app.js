@@ -9,6 +9,7 @@ const setupSwagger = require('./config/swagger');
 const userRoutes = require('./routes/userRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const fileRoutes = require('./routes/fileRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/files', fileRoutes);
+app.use('/api/payments', paymentRoutes);
 
 setupSwagger(app);
 
