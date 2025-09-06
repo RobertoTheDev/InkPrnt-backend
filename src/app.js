@@ -10,7 +10,6 @@ const userRoutes = require('./routes/userRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const fileRoutes = require('./routes/fileRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
-
 const app = express();
 
 // Middlewares Globais
