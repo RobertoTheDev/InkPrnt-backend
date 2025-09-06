@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { uploadFile, getFiles } = require('../controllers/fileController');
+const auth = require('../middleware/auth');
 
-router.get('/', (req, res) => {
-  res.send('Rota de arquivos funcionando!');
-});
+router.use(auth);
+router.post('/', uploadFile);
+router.get('/', getFiles);
 
 module.exports = router;

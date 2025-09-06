@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { createOrder, getOrders } = require('../controllers/orderController');
+const auth = require('../middleware/auth');
 
-router.get('/', (req, res) => {
-  res.send('Rota de pedidos funcionando!');
-});
+router.use(auth);
+router.post('/', createOrder);
+router.get('/', getOrders)
 
 module.exports = router;
