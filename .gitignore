@@ -1,26 +1,25 @@
 # Node modules
 node_modules/
 
-# Variáveis de ambiente
+# Environment variables
 .env
 
-# Uploads temporários
+# Build output
+dist/
 uploads/
 
+# Test/manual scripts
+checkOrders.js
+seed.js
+test.js
+token.js
+
 # Logs
-logs/
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Cobertura de testes
-coverage/
-
-# Configurações do editor
-.vscode/
-.idea/
-
-# Arquivos do sistema
+# OS files
 .DS_Store
 Thumbs.db
-
-# Nodemon
-nodemon.json
