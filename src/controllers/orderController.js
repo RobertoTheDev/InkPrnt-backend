@@ -10,18 +10,21 @@ exports.createOrder = async (req, res) => {
       return res.status(400).json({ error: 'Nenhum arquivo selecionado para o pedido' });
     }
 
+    // Buscar arquivos do usuário
     const fileDocs = await File.find({ _id: { $in: files }, user: req.user.id });
     if(fileDocs.length !== files.length) {
-        return res.status(400).json({ error: 'Alguns arquivos não foram encontrados'})
+        return res.status(400).json({ error: 'Alguns arquivos não foram encontrados' });
     }
 
+    // Calcular preço total
     const totalPrice = fileDocs.reduce((acc, file) => acc + file.price, 0);
 
+    // Criar pedido no banco
     const order = await Order.create({
       user: req.user.id,
       files,
       totalPrice,
-      status: 'pendente',
+      status: 'pendente', // sempre 'pending' ao criar
     });
 
     res.status(201).json(order);
