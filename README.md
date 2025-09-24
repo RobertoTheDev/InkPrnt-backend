@@ -1,313 +1,189 @@
-# 📅 API de Agendamentos - Laravel 11
+# 🖨️ API inkPrnt - Node.js + Express + MongoDB + Stripe
 
-[![Laravel](https://img.shields.io/badge/Laravel-11.42.1-red.svg)](https://laravel.com)
-[![PHP](https://img.shields.io/badge/PHP-8.3.11-blue.svg)](https://php.net)
-[![Tests](https://img.shields.io/badge/Tests-18%2F19%20Passing-green.svg)](https://phpunit.de)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+API para gerenciamento de pedidos de impressão 3D, com upload de arquivos, cálculo de preços, pagamentos via **Stripe**, **autenticação JWT** e documentação via **Swagger**.
+Desenvolvida com **Node.js 22.x**, **Express 4.x** e **MongoDB 7.x.**
+O foco deste projeto é exclusivamente back-end, já funcional e estruturado para ser consumido por um front-end (**React**, **Next.js**, etc).
 
-API robusta para gerenciamento de agendamentos com controle de acesso baseado em roles, desenvolvida com arquitetura limpa e modernas práticas do Laravel 11.
+## 📌 Ajustes e melhorias
 
-## ✨ Funcionalidades
+O projeto já  ainda está em desenvolvimento e as próximas atualizações serão voltadas para:
 
-- ✅ **CRUD completo de agendamentos** com validações robustas
-- ✅ **Controle de acesso por roles** (admin, gestor, professor)
-- ✅ **Autenticação JWT** com Laravel Sanctum
-- ✅ **Gestão de suspensões** de usuários e locais
-- ✅ **Amistosos** apenas na 1ª e 3ª semana do mês
-- ✅ **Validação de horários** (sem finais de semana, conflitos)
-- ✅ **Arquitetura limpa** com Services e Request classes
-- ✅ **Testes automatizados** (94,7% de cobertura)
-- ✅ **Documentação Swagger** interativa
-- ✅ **Middleware de segurança** customizado
+- [x] CRUD de usuários
 
-## 🏗️ Arquitetura
+- [x] CRUD de arquivos para impressão
 
-Este projeto segue princípios de **Clean Architecture** e **SOLID**:
+- [x] CRUD de pedidos com cálculo automático de preço
 
-```
-app/
-├── Http/
-│   ├── Controllers/          # Controllers enxutos
-│   ├── Requests/            # Validação de dados
-│   └── Middleware/          # Controle de acesso
-├── Services/                # Lógica de negócio
-├── Models/                  # Eloquent models com relationships
-└── Console/Commands/        # Comandos Artisan customizados
-```
+- [x] Integração de pagamentos com Stripe (PaymentIntent + Webhooks)
 
-### Principais Melhorias Implementadas
+- [x] Controle de acesso com JWT
 
-- **Services Layer**: Lógica de negócio separada dos controllers
-- **Request Classes**: Validação centralizada e reutilizável
-- **Middleware Moderno**: Compatível com Laravel 11
-- **Models Limpos**: Constantes, scopes e métodos helper
-- **Exception Handling**: Tratamento consistente de erros
+- [x] Documentação inicial com Swagger
 
-## 🚀 Tecnologias
+- [] Testes automatizados (Jest/Supertest)
 
-- **PHP** 8.3.11
-- **Laravel** 11.42.1
-- **Laravel Sanctum** (Autenticação JWT)
-- **PostgreSQL** (Banco de dados)
-- **PHPUnit** (Testes automatizados)
-- **Swagger/OpenAPI** (Documentação)
-- **Composer** (Gerenciador de dependências)
+- [] Melhoria nos logs e monitoramento
 
-## 📦 Instalação
+- [] Deploy em produção (Railway/Render/Heroku)
 
-### Pré-requisitos
+## ✅ O que já foi feito
 
-- PHP 8.3.11 ou superior
-- Composer 2.x
-- PostgreSQL ou MySQL
-- Git
+**Usuários**
 
-### Passos
+- Registro, login e autenticação com JWT
 
-```bash
-# 1. Clonar o repositório
-git clone https://github.com/RobertoTheDev/api-agendamento.git
-cd api-agendamento
+- Rotas protegidas para recursos sensíveis
 
-# 2. Instalar dependências
-composer install
+**Arquivos**
 
-# 3. Configurar ambiente
-cp .env.example .env
-php artisan key:generate
+- Upload e gerenciamento de arquivos STL/3D
 
-# 4. Configurar banco de dados no .env
-DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_DATABASE=api_agendamento
-DB_USERNAME=seu_usuario
-DB_PASSWORD=sua_senha
+- Cálculo de preço por arquivo
 
-# 5. Executar migrações e seeders
-php artisan migrate --seed
+**Pedidos**
 
-# 6. Gerar documentação Swagger
-php artisan l5-swagger:generate
+- Criação de pedidos a partir de arquivos
 
-# 7. Iniciar servidor
-php artisan serve
-```
+- Atribuição automática de totalPrice
 
-## 🧪 Testes
+- Associação com PaymentIntent no Stripe
+
+- Atualização de status via webhooks do Stripe
+
+**Pagamentos**
+
+- Criação de PaymentIntent
+
+- Atualização de pedido automaticamente ao receber payment_intent.succeeded
+
+**Swagger**
+
+- Documentação inicial da API em /api-docs
+
+## 📖 Documentação Swagger
+A documentação interativa está disponível em:
+
+👉 **[http://localhost:5000/api-docs](http://localhost:5000/api-docs)**
+
+## 💻 Pré-requisitos
+
+Antes de começar, verifique se você possui instalado:
+
+- **Node.js 22.x**
+
+- **npm 9.x**
+
+- Banco de dados **MongoDB** rodando localmente ou em **cloud (Atlas)**
+
+- **Conta de testes no Stripe** (com secret key e webhook configurado)
+
+## 🚀 Instalando API InkPrnt
+
+**1. Clone o repositório:**
 
 ```bash
-# Executar todos os testes
-php artisan test
-
-# Executar testes específicos
-php artisan test --filter=AuthTest
-
-# Executar com relatório de cobertura
-php artisan test --coverage
+git clone https://github.com/RobertoTheDev/api-inkprnt.git
+cd api-inkprnt/backend
 ```
 
-**Status dos Testes**: 18 de 19 testes passando (94,7%)
-
-## 📡 Endpoints da API
-
-A API utiliza **autenticação JWT** via Laravel Sanctum. Endpoints marcados com 🔒 exigem token no header:
-
-```
-Authorization: Bearer {TOKEN}
-```
-
-### 🔑 Autenticação (`/api/auth`)
-
-| Método | Endpoint | Auth | Descrição |
-|--------|----------|------|-----------|
-| POST | `/api/auth/register` | ❌ | Registrar novo usuário |
-| POST | `/api/auth/login` | ❌ | Login e retorno do token |
-| POST | `/api/auth/logout` | 🔒 | Logout do usuário |
-| GET | `/api/auth/user` | 🔒 | Dados do usuário autenticado |
-
-### 📅 Agendamentos (`/api/bookings`)
-
-| Método | Endpoint | Auth | Descrição |
-|--------|----------|------|-----------|
-| GET | `/api/bookings/my-bookings` | 🔒 | Agendamentos do usuário logado |
-| POST | `/api/bookings` | 🔒 | Criar agendamento regular |
-| DELETE | `/api/bookings/{id}` | 🔒 | Cancelar agendamento |
-| POST | `/api/bookings/friendly-match` | 🔒 | Criar amistoso (1ª e 3ª semana) |
-
-### 🛠 Gestão (`/api/management`) - Apenas Gestores/Admins
-
-| Método | Endpoint | Auth | Descrição |
-|--------|----------|------|-----------|
-| GET | `/api/management/suspensions` | 🔒 | Listar suspensões |
-| POST | `/api/management/suspensions` | 🔒 | Criar suspensão |
-| GET | `/api/management/suspensions/{id}` | 🔒 | Exibir suspensão |
-| DELETE | `/api/management/suspensions/{id}` | 🔒 | Remover suspensão |
-
-### 👤 Usuários (`/api/users`) - Apenas Gestores/Admins
-
-| Método | Endpoint | Auth | Descrição |
-|--------|----------|------|-----------|
-| GET | `/api/users` | 🔒 | Listar usuários com filtros |
-| POST | `/api/users` | 🔒 | Criar usuário |
-| GET | `/api/users/{id}` | 🔒 | Exibir usuário |
-| PUT | `/api/users/{id}` | 🔒 | Atualizar usuário |
-| DELETE | `/api/users/{id}` | 🔒 | Remover usuário |
-
-## 🔍 Documentação Interativa
-
-Acesse a documentação Swagger completa em:
-
-**http://localhost:8000/api/documentation**
-
-A documentação inclui:
-- Interface interativa para testar endpoints
-- Esquemas de dados detalhados
-- Exemplos de request/response
-- Códigos de erro documentados
-- Autenticação Bearer JWT integrada
-
-## 💡 Exemplos de Uso
-
-### Registro e Login
-
+**2. Instale as dependências:**
 ```bash
-# Registrar usuário
-curl -X POST http://localhost:8000/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "João Silva",
-    "email": "joao@example.com",
-    "password": "senha123456",
-    "password_confirmation": "senha123456",
-    "role": "professor"
-  }'
-
-# Fazer login
-curl -X POST http://localhost:8000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "professor@booking.com",
-    "password": "password123"
-  }'
+npm install
 ```
 
-### Criar Agendamento
-
+**3. Configure o .env:**
 ```bash
-curl -X POST http://localhost:8000/api/bookings \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer SEU_TOKEN_AQUI" \
-  -d '{
-    "location": "Quadra 1",
-    "lesson_period": 3,
-    "start_time": "2024-12-25 14:00:00",
-    "end_time": "2024-12-25 15:00:00",
-    "is_evaluation_period": false,
-    "notes": "Aula de tênis"
-  }'
+PORT=5000
+DB_URI=mongodb://localhost:27017/inkprnt
+JWT_SECRET=sua_chave_jwt
+STRIPE_SECRET_KEY=sua_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=sua_webhook_secret
 ```
 
-### Criar Amistoso
-
+**4. Rode em modo desenvolvimento:**
 ```bash
-curl -X POST http://localhost:8000/api/bookings/friendly-match \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer SEU_TOKEN_AQUI" \
-  -d '{
-    "location": "Quadra 1",
-    "lesson_period": 4,
-    "start_time": "2024-12-07 16:00:00",
-    "end_time": "2024-12-07 17:00:00",
-    "is_evaluation_period": false,
-    "notes": "Amistoso de sábado"
-  }'
+npm run dev
 ```
 
-## ⚙️ Comandos Artisan
+A API estará disponível em:
+👉 **http://localhost:5000**
 
-### Verificar Suspensões Expiradas
+````pgsql
+📂 Estrutura do Projeto
+backend/
+├── src/
+│   ├── controllers/       # Lógica dos endpoints
+│   │   ├── userController.js
+│   │   ├── fileController.js
+│   │   ├── orderController.js
+│   │   ├── paymentController.js
+│   │   └── webhookController.js
+│   │
+│   ├── models/            # Schemas do Mongoose
+│   │   ├── User.js
+│   │   ├── File.js
+│   │   └── Order.js
+│   │
+│   ├── routes/            # Rotas da API
+│   │   ├── userRoutes.js
+│   │   ├── fileRoutes.js
+│   │   ├── orderRoutes.js
+│   │   ├── paymentRoutes.js
+│   │   └── webhookRoutes.js
+│   │
+│   ├── services/          # Integrações externas
+│   │   └── paymentService.js
+│   │
+│   ├── config/            # Configurações
+│   │   ├── swagger.js
+│   │   └── db.js
+│   │
+│   └── app.js             # Inicialização do Express
+│
+├── .env                   # Variáveis de ambiente
+├── .gitignore
+├── package.json
+├── nodemon.json
+└── README.md
+````
 
-```bash
-# Executar verificação (dry-run)
-php artisan suspensions:check-expired --dry-run
 
-# Executar e aplicar mudanças
-php artisan suspensions:check-expired
-```
+## 🛠 Tecnologias utilizadas
+- **Node.js 22.x**
 
-### Estatísticas de Agendamentos
+- **Express 4.x**
 
-```bash
-# Estatísticas do mês atual
-php artisan bookings:stats --period=month
+- **MongoDB 7.x**
 
-# Estatísticas por local
-php artisan bookings:stats --location="Quadra 1"
-```
+- **Mongoose** para modelagem de dados
 
-## 🔐 Segurança
+- **Stripe** para pagamentos online
 
-### Controle de Acesso
+- **JW** para autenticação
 
-- **Professores**: Podem criar e cancelar seus próprios agendamentos
-- **Gestores**: Podem gerenciar suspensões e visualizar todos os agendamentos
-- **Admins**: Acesso completo ao sistema
+- **Swagger** para documentação
 
-### Validações Implementadas
+- **Multer** para upload de arquivos
 
-- Agendamentos apenas em dias úteis
-- Amistosos restritos à 1ª e 3ª semana do mês
-- Verificação de disponibilidade de locais
-- Controle de suspensões ativas
-- Tokens JWT com expiração
+## 📦 Bibliotecas principais
 
-## 📊 Estrutura do Banco
+- **express** – Servidor HTTP
 
-### Principais Tabelas
+- **mongoose** – ODM para MongoDB
 
-- **users**: Usuários com roles e status de suspensão
-- **bookings**: Agendamentos com tipos e status
-- **suspensions**: Suspensões de usuários/locais
-- **personal_access_tokens**: Tokens JWT do Sanctum
+- **jsonwebtoken** – Autenticação JWT
 
-## 🤝 Contribuição
+- **bcryptjs** – Criptografia de senhas
 
-1. Faça fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+- **multer** – Upload de arquivos
 
-## 📝 Changelog
+- **stripe** – Integração com Stripe
 
-### v2.0.0 - Refatoração Completa
-- ✅ Arquitetura limpa com Services e Request classes
-- ✅ Migração para Laravel 11 com middleware moderno
-- ✅ Testes automatizados (94,7% de cobertura)
-- ✅ Documentação Swagger interativa
-- ✅ Correção de bugs de validação
-- ✅ Melhoria na segurança e controle de acesso
+- **swagger-jsdoc** + **swagger-ui-express** – Documentação da API
 
-### v1.0.0 - Versão Inicial
-- ✅ CRUD básico de agendamentos
-- ✅ Autenticação com Sanctum
-- ✅ Controle de roles básico
+- **dotenv** – Variáveis de ambiente
 
-## 🐛 Problemas Conhecidos
-
-- ExampleTest falha (teste padrão do Laravel - irrelevante para API)
-- Para reportar bugs, abra uma [issue](https://github.com/RobertoTheDev/api-agendamento/issues)
-
-## 📞 Suporte
-
-- **Email**: robertofilholopesg202@gmail.com
-- **GitHub Issues**: [Reportar problema](https://github.com/RobertoTheDev/api-agendamento/issues)
-- **Documentação**: http://localhost:8000/api/documentation
+- **nodemon** – Hot reload no desenvolvimento
 
 ## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
----
-*API de Agendamentos - Transformando a gestão de reservas com tecnologia moderna*
+Este projeto está licenciado sob a [MIT License](./LICENSE).
